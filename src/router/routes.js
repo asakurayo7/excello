@@ -13,7 +13,12 @@ const Cards = resolve => { require.ensure(['../components/ui-cards.vue'], ()=>{ 
 const Grids = resolve => { require.ensure(['../components/ui-grids.vue'], ()=>{ resolve(require('../components/ui-grids.vue')); }); };
 const Table = resolve => { require.ensure(['../components/Table.vue'], ()=>{ resolve(require('../components/Table.vue')); }); };
 const Forms = resolve => { require.ensure(['../components/Forms.vue'], ()=>{ resolve(require('../components/Forms.vue')); }); };
+const Users = resolve => { require.ensure(['../components/user/user.vue'], ()=>{ resolve(require('../components/user/user.vue')); }); };
+const UsersAdd = resolve => { require.ensure(['../components/user/userAdd.vue'], ()=>{ resolve(require('../components/user/userAdd.vue')); }); };
 
+const Faq = resolve => { require.ensure(['../components/faq/faq.vue'], ()=>{ resolve(require('../components/faq/faq.vue')); }); };
+const FaqAdd = resolve => { require.ensure(['../components/faq/faqAdd.vue'], ()=>{ resolve(require('../components/faq/faqAdd.vue')); }); };
+const FaqEdit = resolve => { require.ensure(['../components/faq/faqEdit.vue'], ()=>{ resolve(require('../components/faq/faqEdit.vue')); }); };
 
 
 //Charts
@@ -33,6 +38,7 @@ const LineMapsPage = resolve => { require.ensure(['../components/maps/line-maps/
 
 
 export const routes = [
+   
     {
         path : '',
         name: 'home',
@@ -48,6 +54,13 @@ export const routes = [
             component: Dashboard
         }]
     },
+    { path : '/user', name: 'user', component: Users },
+    { path : '/userAdd', name: 'userAdd', component: UsersAdd },
+    { path : '/faq', name: 'faq', component: Faq },
+    { path : '/faqAdd', name: 'faqrAdd', component: FaqAdd },
+    { path : '/faqEdit/:fid', name: 'faqEdit', component: FaqEdit },
+
+
     { path : '/components/alerts', name: 'alerts', component: Alerts },
     { path : '/components/calendar', name: 'calendar', component: Calendar },
     { path : '/components/buttons', name: 'buttons', component: Buttons },
