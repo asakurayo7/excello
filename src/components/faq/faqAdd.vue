@@ -16,9 +16,7 @@
          </div>
           <div class="row form-group">
               <div class="col col-md-2"><label for="answer" class=" form-control-label">คำตอบ</label></div>
-              <div class="col-12 col-md-9">
-              <ckeditor  v-model="newFaq.answer" ></ckeditor>
-              </div>
+              <div class="col-12 col-md-9"><textarea type="text" name="answer"  v-model="newFaq.answer" rows="20"   class="form-control"></textarea></div>
          </div>
 
          <div class="row form-group">
@@ -54,8 +52,7 @@
 
 <script>
 import axios from 'axios';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
- 
+import VueRouter from 'vue-router';
 export default {
     name: "faqAdd",
     data() {
@@ -66,19 +63,11 @@ export default {
                },
         } 
     }, 
-     beforeCreate() {
-     // console.log(this.$cookies.get('login'))
-        if (this.$cookies.get('login')=='false') {
-         this.$router.replace("/login")
-          
-        }
-     
-  },
     methods:{
         saveFaq(){
               var dataForm = this.toFormData(this.newFaq);
 			     axios.post('http://localhost/php_action/dataUser.php?action=insert&p=faq', dataForm)
-				.then(response => {
+				.then(function(response){
 					//console.log(response.data.message);
 					
 					if(response.data.error){
@@ -88,13 +77,13 @@ export default {
 					}
 					else{
                        
-                   //  this.$route.push('/faq')
+                    // router.push('faq')
 					//	app.successMessage = response.data.message
-					  this.$router.replace('/faq')
+					 
 					}
 				});
-               // location.replace('/faq')
-                  // this.$route.push({name:'faq'})
+                location.replace('/faq')
+                //  this.$route.push('/faq')
         },
         toFormData(obj){
 			     var form_data = new FormData();

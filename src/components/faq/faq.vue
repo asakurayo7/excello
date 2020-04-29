@@ -8,7 +8,7 @@
         <div class="card-body">
        
         <p><router-link to="/faqAdd"><button type="button"  class="btn btn-success m-b-10 m-l-10 float-right"  >
-        <i class="fa fa-plus-square"></i>  เพิ่มข้อมูล
+        <i class="fa fa-user"></i>  เพิ่มข้อมูล
        </button></router-link></p>
       
      
@@ -67,52 +67,43 @@ export default {
     faqID:''
     };
   },
-   beforeCreate() {
-     // console.log(this.$cookies.get('login'))
-        if (this.$cookies.get('login')=='false') {
-         this.$router.replace("/login")
-          
-        }
-     
-  },
   methods: {
-    
       getAllFaq(){
-       axios.get('http://sisaket-run.com/php_action/dataUser.php?action=read&p=faq')
+       axios.get('http://localhost/php_action/dataUser.php?action=read&p=faq')
       .then(response => {
       // JSON responses are automatically parsed.
       //  console.log(response.data.users);
-           
-
-       //  console.log(response.data.faqs) ;
          this.faqs = response.data.faqs;
+        
          })
       .then(()=>{
-       
-      
+        alert('fetch Success');
+        $('.dtTable').DataTable();
 
       })
       .catch(e => {
       this.errors.push(e)
         })  
       },
-      
      deleteFaq(id){
 		  if(confirm('คุณต้องการลบข้อมูลหรือไม่ ?')){
        //	var dataForm = app.toFormData(this.clickFaq);
-		   axios.get('http://sisaket-run.com/php_action/dataUser.php?action=del&p=faq&fid='+id)
-				.then(response => {
+			axios.get('http://localhost/php_action/dataUser.php?action=del&p=faq&fid='+id)
+				.then(function(response){
 					 console.log( response.data.message);
-
-           this.getAllFaq();
 				 
 					if(response.data.error){
 						 
 					}
-				 
+					else{
+						 
+				//	app.getAllFaq();
+					}
 				});
-        
-        
+        this.getAllFaq();
+        //this.$router.go()
+       // $router.push('/faq')
+
        }
 		},
 
@@ -120,7 +111,6 @@ export default {
     } ,
 
     mounted () {
-     // console.log("3test 5555" );  
     this.getAllFaq();
   }
  

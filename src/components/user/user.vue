@@ -21,20 +21,22 @@
                 <th scope="col">Email</th>
                 <th scope="col">สิทธิ์</th>
                 <th scope="col">ขื่อ - สกุล</th>
+                <th scope="col">หน่วยงาน</th>
                 <th scope="col">เบอร์โทร</th>
               </tr>
             </thead>
             <tbody>
               <tr  v-for="user in users" v-bind:key="user.id" >
                 <th scope="row">
-                <router-link :to="{ name: 'userEdit', params: { id: user.id}}"> <a href="#" class="text-success mx-3" ><i class="fa fa-edit"></i></a></router-link>
+                <a href="#" class="text-success mx-3" ><i class="fa fa-edit"></i></a>
 
-                <a href="#" class="text-danger"  @click="deleteUser(user.id)"><i class="fa fa-trash"></i></a>
+                <a href="#" class="text-danger" ><i class="fa fa-trash"></i></a>
                 </th>
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.role}}</td>
                 <td>{{user.firstname}} {{user.lastname}}</td>
+                <td>{{user.organization}}</td>
                 <td>{{user.phone}}</td>
               </tr>
                
@@ -65,18 +67,10 @@ export default {
      msg: "55555",
     users:[]
     };
-  }, 
-  beforeCreate() {
-     // console.log(this.$cookies.get('login'))
-        if (this.$cookies.get('login')=='false') {
-         this.$router.replace("/login")
-          
-        }
-     
   },
   methods: {
       getAllUsers(){
-       axios.get('http://sisaket-run.com/php_action/dataUser.php?action=read&p=u')
+       axios.get('http://localhost/php_action/dataUser.php?action=read&p=u')
     .then(response => {
       // JSON responses are automatically parsed.
        // console.log(response.data.users);
@@ -85,31 +79,7 @@ export default {
     .catch(e => {
       this.errors.push(e)
     })  
-      },
-
-
-       deleteUser(id){
-		  if(confirm('คุณต้องการลบข้อมูลหรือไม่ ?')){
-       //	var dataForm = app.toFormData(this.clickFaq);
-		   axios.get('http://sisaket-run.com/php_action/dataUser.php?action=del&p=u&id='+id)
-				.then(response => {
-					 console.log( response.data.message);
-
-           this.getAllUsers();
-				 
-					if(response.data.error){
-						 
-					}
-				 
-				});
-        
-        
-       }
-		},
-
-
-
-
+      }
     } ,
 
     mounted:function() {

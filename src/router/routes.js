@@ -15,18 +15,10 @@ const Table = resolve => { require.ensure(['../components/Table.vue'], ()=>{ res
 const Forms = resolve => { require.ensure(['../components/Forms.vue'], ()=>{ resolve(require('../components/Forms.vue')); }); };
 const Users = resolve => { require.ensure(['../components/user/user.vue'], ()=>{ resolve(require('../components/user/user.vue')); }); };
 const UsersAdd = resolve => { require.ensure(['../components/user/userAdd.vue'], ()=>{ resolve(require('../components/user/userAdd.vue')); }); };
-const UsersEdit = resolve => { require.ensure(['../components/user/userEdit.vue'], ()=>{ resolve(require('../components/user/userEdit.vue')); }); };
-
-const Login = resolve => { require.ensure(['../components/user/login.vue'], ()=>{ resolve(require('../components/user/login.vue')); }); };
-const Logout = resolve => { require.ensure(['../components/user/logout.vue'], ()=>{ resolve(require('../components/user/logout.vue')); }); };
 
 const Faq = resolve => { require.ensure(['../components/faq/faq.vue'], ()=>{ resolve(require('../components/faq/faq.vue')); }); };
 const FaqAdd = resolve => { require.ensure(['../components/faq/faqAdd.vue'], ()=>{ resolve(require('../components/faq/faqAdd.vue')); }); };
 const FaqEdit = resolve => { require.ensure(['../components/faq/faqEdit.vue'], ()=>{ resolve(require('../components/faq/faqEdit.vue')); }); };
-
-const LessonCategory = resolve => { require.ensure(['../components/lesson_category/lessonCategory.vue'], ()=>{ resolve(require('../components/lesson_category/lessonCategory.vue')); }); };
-const LessonCategoryAdd = resolve => { require.ensure(['../components/lesson_category/lessonCategoryAdd.vue'], ()=>{ resolve(require('../components/lesson_category/lessonCategoryAdd.vue')); }); };
-const LessonCategoryEdit = resolve => { require.ensure(['../components/lesson_category/lessonCategoryEdit.vue'], ()=>{ resolve(require('../components/lesson_category/lessonCategoryEdit.vue')); }); };
 
 
 //Charts
@@ -43,9 +35,6 @@ const GoogleMapsPage = resolve => { require.ensure(['../components/maps/google-m
 const LeafletMapsPage = resolve => { require.ensure(['../components/maps/leaflet-maps/LeafletMapsPage.vue'], ()=>{ resolve(require('../components/maps/leaflet-maps/LeafletMapsPage.vue')); }); };
 const BubbleMapsPage = resolve => { require.ensure(['../components/maps/bubble-maps/BubbleMapsPage.vue'], ()=>{ resolve(require('../components/maps/bubble-maps/BubbleMapsPage.vue')); }); };
 const LineMapsPage = resolve => { require.ensure(['../components/maps/line-maps/LineMapsPage.vue'], ()=>{ resolve(require('../components/maps/line-maps/LineMapsPage.vue')); }); };
-
-
-
 
 
 export const routes = [
@@ -65,25 +54,11 @@ export const routes = [
             component: Dashboard
         }]
     },
-    { path : '/login', name: 'login', component: Login },
-    { path : '/logout', name: 'logout', component: Logout },
-    { path : '/user', name: 'user', component: Users,
-    meta: { 
-        requiresAuth: true
-      }
-    },
+    { path : '/user', name: 'user', component: Users },
     { path : '/userAdd', name: 'userAdd', component: UsersAdd },
-    { path : '/userEdit/:id', name: 'userEdit', component: UsersEdit },
     { path : '/faq', name: 'faq', component: Faq },
-    { path : '/faqAdd', name: 'faqAdd', component: FaqAdd },
+    { path : '/faqAdd', name: 'faqrAdd', component: FaqAdd },
     { path : '/faqEdit/:fid', name: 'faqEdit', component: FaqEdit },
-
-    { path : '/lessonCategory', name: 'lessonCategory', component: LessonCategory },
-    { path : '/lessonCategoryAdd', name: 'lessonCategoryAdd', component: LessonCategoryAdd },
-    { path : '/lessonCategoryEdit/:id', name: 'lessonCategoryEdit', component: LessonCategoryEdit },
-    
-    
-      
 
 
     { path : '/components/alerts', name: 'alerts', component: Alerts },
@@ -167,5 +142,3 @@ export const routes = [
 
 
 ];
-
- 

@@ -12,13 +12,11 @@
          
          <div class="row form-group">
               <div class="col col-md-2"><label for="question" class=" form-control-label">คำถาม</label></div>
-              <div class="col-12 col-md-5"><input type="text" name="question" v-model="newFaq.question"   placeholder="Question" class="form-control"></div>
+              <div class="col-12 col-md-5"><input type="text" name="question" v-model="newFaq.question" placeholder="Question" class="form-control"></div>
          </div>
           <div class="row form-group">
               <div class="col col-md-2"><label for="answer" class=" form-control-label">คำตอบ</label></div>
-              <div class="col-12 col-md-9">
-              <ckeditor  v-model="newFaq.answer" ></ckeditor>
-             </div>
+              <div class="col-12 col-md-9"><textarea type="text" name="answer"  v-model="newFaq.answer" rows="20"   class="form-control"></textarea></div>
          </div>
 
          <div class="row form-group">
@@ -54,55 +52,38 @@
 
 <script>
 import axios from 'axios';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
- 
+import VueRouter from 'vue-router';
 export default {
-    name: "faqEdit",
+    name: "faqAdd",
    data() {
        return {
            newFaq: {
                question: '', answer: '',
-               sequence: '', author:'1'  
+               sequence: '', author:'1' 
                },
-            
-            
         } 
-      }, 
-       beforeCreate() {
-     // console.log(this.$cookies.get('login'))
-        if (this.$cookies.get('login')=='false') {
-         this.$router.replace("/login")
-          
-        }
-     
-  },
-      
-      methods:{
+      }, methods:{
 
-         getFaq(){
-         var id =   this.$route.params.fid;
-             	axios.get('http://sisaket-run.com/php_action/dataUser.php?action=edit&p=faq&fid='+id)
-				.then(response => {
-					// console.log( response.data.faqs);
-				   this.newFaq=response.data.faqs  ;
-         //   console.log( aa);
-         //console.log(response.data.faqs );
+         getFaq(id){
+             	axios.get('http://localhost/php_action/dataUser.php?action=get&p=faq&fid='+id)
+				.then(function(response){
+					 console.log( response.data.faq);
+				 
 					if(response.data.error){
-						  
+						 
 					}
 					else{
-					 
+						 
 				//	app.getAllFaq();
 					}
 				});
-   
+
+
          }, 
         saveFaq(){
-
-             var id =   this.$route.params.fid;
               var dataForm = this.toFormData(this.newFaq);
-			     axios.post('http://sisaket-run.com/php_action/dataUser.php?action=update&p=faq&fid='+id, dataForm)
-				.then(response => {
+			     axios.post('http://localhost/php_action/dataUser.php?action=insert&p=faq', dataForm)
+				.then(function(response){
 					//console.log(response.data.message);
 					
 					if(response.data.error){
@@ -114,11 +95,10 @@ export default {
                        
                     // router.push('faq')
 					//	app.successMessage = response.data.message
-           this.$router.replace('/faq')
 					 
 					}
 				});
-               
+                this.$router.replace('/faq')
                 //  this.$route.push('/faq')
         },
         toFormData(obj){
@@ -133,7 +113,7 @@ export default {
       },
       mounted() {
    
-    this.getFaq();
+    this.getFaq(this.$route.params.fid);
       }
      
     
