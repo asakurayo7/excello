@@ -18,7 +18,16 @@ export default {
       icon: 'fa fa-table',
       url: '/faq'
     },
-   
+    {
+      name: 'จัดการ หมวดบทเรียน',
+      icon: 'fa fa-table',
+      url: '/lessonCategory'
+    },
+    {
+      name: 'ออกจากระบบ',
+      icon: 'fa fa-key',
+      url: '/logout'
+    },
 
   ]
 }

@@ -13,8 +13,14 @@ const store = new Vuex.Store({
   modules: {
     app
   },
-  state: {},
-  mutations: {}
+  state: {
+    authenticated: false,
+  },
+  mutations: {
+    setAuthenticated(state, status){
+      state.authenticated = status;
+    }
+  }
 })
 
 export default store

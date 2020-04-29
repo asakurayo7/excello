@@ -6,30 +6,31 @@
          
         </div>
         <div class="card-body">
-          <strong class="card-title">เพิ่มข้อมูล FAQ</strong>
+          <strong class="card-title">แก้ไขข้อมูล หมวดบทเรียน</strong>
           <hr>
          <form action=""  >
          
          <div class="row form-group">
-              <div class="col col-md-2"><label for="question" class=" form-control-label">คำถาม</label></div>
-              <div class="col-12 col-md-5"><input type="text" name="question" v-model="newFaq.question"   placeholder="Question" class="form-control"></div>
+              <div class="col col-md-2"><label for="question" class=" form-control-label">ชื่อเรื่อง</label></div>
+              <div class="col-12 col-md-8"><input type="text" name="question" v-model="newData.name"   class="form-control"></div>
          </div>
           <div class="row form-group">
-              <div class="col col-md-2"><label for="answer" class=" form-control-label">คำตอบ</label></div>
+              <div class="col col-md-2"><label for="answer" class=" form-control-label">รายละเอียด</label></div>
               <div class="col-12 col-md-9">
-              <ckeditor  v-model="newFaq.answer" ></ckeditor>
-             </div>
+               
+               <ckeditor  v-model="newData.description" ></ckeditor>
+              </div>
          </div>
 
          <div class="row form-group">
-              <div class="col col-md-2"><label for="sequence" class=" form-control-label">ลำดับคำถาม</label></div>
-              <div class="col-12 col-md-3"><input type="text" name="sequence" v-model="newFaq.sequence"  class="form-control"></div>
+              <div class="col col-md-2"><label for="sequence" class=" form-control-label">ลำดับ </label></div>
+              <div class="col-12 col-md-3"><input type="text" name="sequence" v-model="newData.sequence"  class="form-control"></div>
          </div>
           
            
           <div class="form-group" align="center">
          
-          <button  type="button"  class="btn btn-primary btn" @click="saveFaq();">
+          <button  type="button"  class="btn btn-primary btn" @click="saveData();">
           <i class="fa fa-dot-circle-o"></i>
           Submit</button>
 
@@ -55,20 +56,19 @@
 <script>
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
- 
 export default {
-    name: "faqEdit",
-   data() {
+    name: "catAdd",
+    data() {
        return {
-           newFaq: {
-               question: '', answer: '',
-               sequence: '', author:'1'  
+           newData: {
+               name: '', description: '',
+               sequence: '', author_id:'1' ,
+               editor: ClassicEditor,
+            
                },
-            
-            
         } 
-      }, 
-       beforeCreate() {
+    }, 
+     beforeCreate() {
      // console.log(this.$cookies.get('login'))
         if (this.$cookies.get('login')=='false') {
          this.$router.replace("/login")
@@ -76,15 +76,13 @@ export default {
         }
      
   },
-      
-      methods:{
-
-         getFaq(){
-         var id =   this.$route.params.fid;
-             	axios.get('http://sisaket-run.com/php_action/dataUser.php?action=edit&p=faq&fid='+id)
+    methods:{
+            getData(){
+         var id =   this.$route.params.id;
+             	axios.get('http://sisaket-run.com/php_action/apiData.php?action=edit&p=cat&id='+id)
 				.then(response => {
 					// console.log( response.data.faqs);
-				   this.newFaq=response.data.faqs  ;
+				   this.newData=response.data.cats  ;
          //   console.log( aa);
          //console.log(response.data.faqs );
 					if(response.data.error){
@@ -97,13 +95,12 @@ export default {
 				});
    
          }, 
-        saveFaq(){
-
-             var id =   this.$route.params.fid;
-              var dataForm = this.toFormData(this.newFaq);
-			     axios.post('http://sisaket-run.com/php_action/dataUser.php?action=update&p=faq&fid='+id, dataForm)
+        saveData(){
+              var dataForm = this.toFormData(this.newData);
+               var id =   this.$route.params.id;
+			     axios.post('http://sisaket-run.com/php_action/apiData.php?action=update&p=cat&id='+id, dataForm)
 				.then(response => {
-					//console.log(response.data.message);
+					 console.log(response.data.message);
 					
 					if(response.data.error){
 					 	//app.errorMessage = response.data.message;
@@ -112,14 +109,13 @@ export default {
 					}
 					else{
                        
-                    // router.push('faq')
+                   //  this.$route.push('/faq')
 					//	app.successMessage = response.data.message
-           this.$router.replace('/faq')
-					 
+					  this.$router.replace('/lessonCategory')
 					}
 				});
-               
-                //  this.$route.push('/faq')
+               // location.replace('/faq')
+                  // this.$route.push({name:'faq'})
         },
         toFormData(obj){
 			     var form_data = new FormData();
@@ -128,13 +124,14 @@ export default {
 			      }
 		   return form_data;
 		},
+      
        
 
       },
-      mounted() {
+        mounted() {
    
-    this.getFaq();
-      }
+           this.getData();
+          }
      
     
 }

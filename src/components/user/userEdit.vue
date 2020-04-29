@@ -6,7 +6,7 @@
          
         </div>
         <div class="card-body">
-          <strong class="card-title">เพิ่มข้อมูลผู้ใช้งาน</strong>
+          <strong class="card-title">แก้ไขข้อมูลผู้ใช้งาน</strong>
           <hr>
          <form action="" class="form-horizontal">
          
@@ -16,16 +16,22 @@
             </div>
           <div class="row form-group">
               <div class="col col-md-2"><label for="username" class=" form-control-label">Username</label></div>
-              <div class="col-12 col-md-5"><input type="text" id="username" name="username"  v-model="newData.username"  class="form-control"></div>
+              <div class="col-12 col-md-5"><input type="text"  disabled name="username"  v-model="newData.username"  class="form-control"></div>
             </div> 
 
              <div class="row form-group">
               <div class="col col-md-2"><label for="password" class=" form-control-label">Password</label></div>
-              <div class="col-12 col-md-5"><input type="password" id="password" name="password"  v-model="newData.password"  class="form-control"> </div>
+              <div class="col-12 col-md-5"><input type="password" id="password" name="password" v-model="newData.password"   class="form-control"> </div>
             </div>  
              <div class="row form-group">
               <div class="col col-md-2"><label for="profile_image" class=" form-control-label">รูปประจำตัว</label></div>
-              <div class="col-12 col-md-5"><input type="file"  @change="onFileSelect"      class="form-control"> </div>
+              <div class="col-12 col-md-5"><input type="file"  @change="onFileSelect"      class="form-control"> 
+               <br>
+                
+               <div v-if="picShow">
+               <img :src="newData.profile_image" width="250" height="300">
+                </div>
+              </div>
             </div> 
 
             
@@ -98,7 +104,7 @@ import axios from 'axios';
 
 
 export default {
-  name: "userAdd",
+  name: "userEdit",
    data(){
       return{
             newData: {
@@ -106,8 +112,10 @@ export default {
                	password: '', 	role:'' ,
                status:'available' , firstname:'',
                	lastname:'' , position:'',
-                	organization:'' , phone:'',
+                	organization:'' , phone:'',profile_image:'',
+                  
                },
+               picShow:false,
            
            pic:null
 
@@ -128,12 +136,36 @@ methods:{
     //console.log(this.pic);
       
      },
+      getData(){
+         var id =   this.$route.params.id;
+        axios.get('http://sisaket-run.com/php_action/dataUser.php?action=get&p=u&id='+id)
+				.then(response => {
+					// console.log( response.data.faqs);
+				   
+         //   console.log( aa);
+         //console.log(response.data.faqs );
+					if(response.data.error){
+						  
+					}
+					else{
+				 this.newData=response.data.users  ;
+         this.newData.password='';
+         if(this.newData.profile_image !=''){
+             this.picShow =true;
+            this.newData.profile_image ="http://sisaket-run.com/php_action/"+this.newData.profile_image ;
+         }
+
+					}
+				});
+   
+         }, 
 
      onSave(){
 
        var dataForm = this.toFormData(this.newData);
+        var id =   this.$route.params.id;
       // console.log(this.pic);
-		    axios.post('http://sisaket-run.com/php_action/dataUser.php?action=insert&p=u', dataForm,
+		    axios.post('http://sisaket-run.com/php_action/dataUser.php?action=update&p=u&id='+id, dataForm,
          {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -167,6 +199,9 @@ methods:{
 		   return form_data;
 		},
 
-   }
+   }  , mounted() {
+   
+           this.getData();
+          }
 }
 </script>

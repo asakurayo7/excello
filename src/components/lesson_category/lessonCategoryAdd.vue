@@ -6,30 +6,31 @@
          
         </div>
         <div class="card-body">
-          <strong class="card-title">เพิ่มข้อมูล FAQ</strong>
+          <strong class="card-title">เพิ่มข้อมูล หมวดบทเรียน</strong>
           <hr>
          <form action=""  >
          
          <div class="row form-group">
-              <div class="col col-md-2"><label for="question" class=" form-control-label">คำถาม</label></div>
-              <div class="col-12 col-md-5"><input type="text" name="question" v-model="newFaq.question" placeholder="Question" class="form-control"></div>
+              <div class="col col-md-2"><label for="question" class=" form-control-label">ชื่อเรื่อง</label></div>
+              <div class="col-12 col-md-8"><input type="text" name="question" v-model="newData.name"   class="form-control"></div>
          </div>
           <div class="row form-group">
-              <div class="col col-md-2"><label for="answer" class=" form-control-label">คำตอบ</label></div>
+              <div class="col col-md-2"><label for="answer" class=" form-control-label">รายละเอียด</label></div>
               <div class="col-12 col-md-9">
-              <ckeditor  v-model="newFaq.answer" ></ckeditor>
+               
+               <ckeditor  v-model="newData.description" ></ckeditor>
               </div>
          </div>
 
          <div class="row form-group">
-              <div class="col col-md-2"><label for="sequence" class=" form-control-label">ลำดับคำถาม</label></div>
-              <div class="col-12 col-md-3"><input type="text" name="sequence" v-model="newFaq.sequence"  class="form-control"></div>
+              <div class="col col-md-2"><label for="sequence" class=" form-control-label">ลำดับ </label></div>
+              <div class="col-12 col-md-3"><input type="text" name="sequence" v-model="newData.sequence"  class="form-control"></div>
          </div>
           
            
           <div class="form-group" align="center">
          
-          <button  type="button"  class="btn btn-primary btn" @click="saveFaq();">
+          <button  type="button"  class="btn btn-primary btn" @click="saveData();">
           <i class="fa fa-dot-circle-o"></i>
           Submit</button>
 
@@ -55,14 +56,15 @@
 <script>
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
- 
 export default {
-    name: "faqAdd",
+    name: "catAdd",
     data() {
        return {
-           newFaq: {
-               question: '', answer: '',
-               sequence: '', author:'1' 
+           newData: {
+               name: '', description: '',
+               sequence: '', author:'1' ,
+               editor: ClassicEditor,
+            
                },
         } 
     }, 
@@ -75,11 +77,11 @@ export default {
      
   },
     methods:{
-        saveFaq(){
-              var dataForm = this.toFormData(this.newFaq);
-			     axios.post('http://localhost/php_action/dataUser.php?action=insert&p=faq', dataForm)
+        saveData(){
+         var dataForm = this.toFormData(this.newData);
+			     axios.post('http://sisaket-run.com/php_action/apiData.php?action=insert&p=cat', dataForm)
 				.then(response => {
-					//console.log(response.data.message);
+					 console.log(response.data.message);
 					
 					if(response.data.error){
 					 	//app.errorMessage = response.data.message;
@@ -90,7 +92,7 @@ export default {
                        
                    //  this.$route.push('/faq')
 					//	app.successMessage = response.data.message
-					  this.$router.replace('/faq')
+					  this.$router.replace('/lessonCategory')
 					}
 				});
                // location.replace('/faq')

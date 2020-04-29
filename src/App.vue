@@ -31,6 +31,7 @@ export default {
         nav: nav.items
       }
     },
+   
     components: {
       VueMinPreloader: Preloader,
       VueMinHeader: Header,
